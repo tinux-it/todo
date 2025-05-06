@@ -2,7 +2,6 @@
 
 namespace Database\Factories;
 
-use App\Models\Tag;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -18,9 +17,8 @@ class TaskFactory extends Factory
     public function definition(): array
     {
         return [
-            'title' => fake()->colorName(),
+            'title' => fake()->jobTitle,
             'description' => fake()->realText,
-//            'tags' => Tag::factory()
         ];
     }
 }

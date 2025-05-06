@@ -10,25 +10,24 @@ use Livewire\Component;
 class TaskList extends Component
 {
     public string $title = '';
-
     public string $description = '';
-
     public string $tags = '';
-
     public Collection $tasks;
+    public array $searchTags = [];
+    public ?string $searchTag = 'all';
 
-    public function mount()
+    public function mount(): void
     {
-        $this->tasks = Task::with('tags')->get();
+        $this->loadData();
     }
 
 
-    public function render()
+    public function render(): object
     {
         return view('livewire.task-list');
     }
 
-    public function save()
+    public function save(): void
     {
         $task = Task::create([
             'title' => $this->title,
@@ -42,5 +41,43 @@ class TaskList extends Component
         $this->tasks = Task::with('tags')->get();
 
         $this->reset(['title', 'description', 'tags']);
+    }
+
+    public function remove(Task $task): void
+    {
+        $task->delete();
+
+        $this->loadData();
+    }
+
+    public function toggleCompletionState(Task $task): void
+    {
+
+        $task->completed = !$task->completed;
+        $task->save();
+        $this->loadData();
+    }
+
+    public function setTagFilter(string $tagName): void
+    {
+        $this->searchTag = $tagName;
+
+        $this->loadData();
+    }
+
+    public function loadData(): void
+    {
+        $query = Task::with('tags');
+
+        // If there is an active tag, filter by that tag
+        if ($this->searchTag && $this->searchTag !== 'all') {
+            $query->whereHas('tags', function ($q) {
+                $q->where('name', $this->searchTag);
+            });
+        }
+
+        $this->tasks = $query->get();
+
+        $this->searchTags = Tag::pluck('name')->unique()->toArray();
     }
 }
