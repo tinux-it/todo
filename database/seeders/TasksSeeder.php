@@ -35,13 +35,13 @@ class TasksSeeder extends Seeder
             [
                 'title' => 'Setup GitHub CI/CD Actions to build a container',
                 'description' => 'Configure GitHub Actions to run tests and build a Docker image for the Laravel application on push.',
-                'completed' => false,
+                'completed' => true,
                 'tags' => ['ci', 'github', 'devops']
             ],
             [
                 'title' => 'Deploy to Kubernetes',
                 'description' => 'Write Kubernetes deployment and service YAML files to deploy the Docker container to a cluster.',
-                'completed' => false,
+                'completed' => true,
                 'tags' => ['kubernetes', 'deployment', 'cloud']
             ],
             [
