@@ -21,6 +21,20 @@ spec:
             - name: app-volume
               mountPath: /app-shared
 
+        - name: migrate-and-seed
+          image: ghcr.io/tinux-it/todo:latest
+          command:
+            - "sh"
+            - "-c"
+            - "php /appartisan migrate:fresh --seed"
+          envFrom:
+            - secretRef:
+                name: todo-app-secrets
+          volumeMounts:
+            - name: app-volume
+              mountPath: /app
+            - name: php-socket
+              mountPath: /php-socket
       containers:
         - name: php-fpm
           image: ghcr.io/tinux-it/todo:latest
