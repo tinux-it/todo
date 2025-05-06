@@ -14,7 +14,11 @@
                 type="text"
                 placeholder="What needs to be done?"
                 class="w-full px-4 py-3 rounded-xl bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
-                wire:model="title">
+                wire:model="title"
+                required
+            >
+            <x-error name="title" />
+
         </label>
 
         <label>
@@ -22,7 +26,11 @@
             <textarea
                 placeholder="A description might make the task easier to complete.."
                 class="w-full px-4 py-3 rounded-xl bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
-                wire:model="description"></textarea>
+                wire:model="description"
+                required
+            ></textarea>
+            <x-error name="description" />
+
         </label>
 
         <label>
@@ -33,6 +41,8 @@
                 placeholder="Add tags (comma separated: e.g. work, urgent)"
                 class="w-full px-4 py-2 rounded-xl bg-gray-800 text-sm text-gray-300 focus:outline-none focus:ring-1 focus:ring-purple-500"
                 wire:model="tags">
+
+            <x-error name="tags" />
         </label>
 
         <button

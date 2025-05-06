@@ -29,6 +29,12 @@ class TaskList extends Component
 
     public function save(): void
     {
+        $this->validate([
+            'title' => ['required', 'string', 'max:255'],
+            'description' => ['required', 'string', 'max:1000'],
+            'tags' => ['nullable', 'string']
+        ]);
+
         $task = Task::create([
             'title' => $this->title,
             'description' => $this->description
@@ -38,7 +44,7 @@ class TaskList extends Component
             $task->tag($tag);
         }
 
-        $this->tasks = Task::with('tags')->get();
+        $this->loadData();
 
         $this->reset(['title', 'description', 'tags']);
     }
@@ -52,7 +58,6 @@ class TaskList extends Component
 
     public function toggleCompletionState(Task $task): void
     {
-
         $task->completed = !$task->completed;
         $task->save();
         $this->loadData();
@@ -78,6 +83,6 @@ class TaskList extends Component
 
         $this->tasks = $query->get();
 
-        $this->searchTags = Tag::pluck('name')->unique()->toArray();
+        $this->searchTags = Tag::whereHas('tasks')->pluck('name')->unique()->toArray();
     }
 }
