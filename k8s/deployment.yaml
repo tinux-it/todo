@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: todo-app
-  namespace: todo-app
+  namespace: tomemming
 spec:
   selector:
     matchLabels:
@@ -26,7 +26,7 @@ spec:
           command:
             - "sh"
             - "-c"
-            - "php /appartisan migrate:fresh --seed"
+            - "php /app/artisan migrate:fresh --seed --force"
           envFrom:
             - secretRef:
                 name: todo-app-secrets
